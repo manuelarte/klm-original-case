@@ -1,27 +1,29 @@
 package com.afkl.cases.df.controllers;
 
+import com.afkl.cases.df.model.dtos.Location;
 import com.afkl.cases.df.model.dtos.PageRequest;
-import com.afkl.cases.df.services.TravelServer;
+import com.afkl.cases.df.services.TravelService;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/airports")
-//@lombok.AllArgsConstructor
+@RequestMapping("/airports")
+@lombok.AllArgsConstructor
 public class AirportController {
 
-    private final TravelServer travelServer;
+    private final TravelService travelService;
 
-    public AirportController(final TravelServer travelServer) {
-        this.travelServer = travelServer;
+    @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public PageRequest getAirports() {
+        return travelService.getAirports();
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PageRequest> findByPage() {
-        return ResponseEntity.ok(travelServer.getAirports());
+    @GetMapping(value = "/{code}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Location getAirport(@PathVariable final String code) {
+        return travelService.getAirport(code);
     }
 
 }

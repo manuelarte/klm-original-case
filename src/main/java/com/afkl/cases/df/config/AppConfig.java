@@ -14,15 +14,13 @@ import java.util.List;
 @lombok.AllArgsConstructor
 public class AppConfig {
 
-    private final RestAuthenticationInterceptor restAuthenticationInterceptor;
-
     @Bean
     public ObjectMapper objectMapper() {
         return new ObjectMapper().findAndRegisterModules();
     }
 
     @Bean
-    public RestTemplate restController() {
+    public RestTemplate restController(final RestAuthenticationInterceptor restAuthenticationInterceptor) {
         final var restTemplate = new RestTemplate();
         List<ClientHttpRequestInterceptor> interceptors
                 = restTemplate.getInterceptors();

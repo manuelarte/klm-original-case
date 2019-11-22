@@ -2,9 +2,7 @@ package com.afkl.cases.df.services.impl;
 
 import com.afkl.cases.df.config.TravelServerProperties;
 import com.afkl.cases.df.model.dtos.AuthTokenResponse;
-import com.afkl.cases.df.model.dtos.PageRequest;
-import com.afkl.cases.df.services.AuthServer;
-import com.afkl.cases.df.services.TravelServer;
+import com.afkl.cases.df.services.AuthService;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -14,13 +12,12 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.PostConstruct;
 import java.nio.charset.Charset;
 import java.util.Base64;
 
 @Service
 @lombok.AllArgsConstructor
-public class AuthServerImpl implements AuthServer {
+class AuthServiceImpl implements AuthService {
 
     private TravelServerProperties travelServerProperties;
 
