@@ -5,8 +5,6 @@ import com.afkl.cases.df.repositories.MetricRequestRepository;
 import com.afkl.cases.df.services.MetricRequestService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @lombok.AllArgsConstructor
 public class MetricRequestImpl implements MetricRequestService {

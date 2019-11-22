@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -19,7 +20,7 @@ class PageRequestTest {
     public void testDeserialize() throws IOException, URISyntaxException {
         final var url = PageRequestTest.class.getResource("/example-locations.json");
         final var resPath = Paths.get(url.toURI());
-        String json = new String(Files.readAllBytes(resPath), "UTF8");
+        String json = new String(Files.readAllBytes(resPath), StandardCharsets.UTF_8);
 
         final var expectedPageInfo = new PageInfo(25, 1048, 42, 1);
 

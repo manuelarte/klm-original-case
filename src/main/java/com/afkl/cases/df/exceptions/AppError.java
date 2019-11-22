@@ -51,8 +51,8 @@ public class AppError {
         private final String message;
         private final List<Error> errors;
 
-        public ErrorBlock(final String code, final String message, final String domain,
-                          final String reason, final String errorMessage, final String errorReportUri) {
+        ErrorBlock(final String code, final String message, final String domain,
+                   final String reason, final String errorMessage, final String errorReportUri) {
             this.code = code;
             this.message = message;
             this.uniqueId = UUID.randomUUID();

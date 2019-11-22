@@ -7,7 +7,7 @@ import com.afkl.cases.df.model.dtos.PageRequest;
 public interface TravelService {
 
     // add query parameter
-    PageRequest getAirports();
+    PageRequest getAirports(Integer page);
 
     Location getAirport(String code);
 

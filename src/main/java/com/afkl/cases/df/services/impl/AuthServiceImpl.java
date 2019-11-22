@@ -12,7 +12,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 @Service
@@ -26,14 +26,14 @@ class AuthServiceImpl implements AuthService {
         final String url = travelServerProperties.getToken();
         final MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("grant_type","client_credentials");
-        final var httpEntity = new HttpEntity(map, createBasicAuthHeaders(clientId, password));
+        final var httpEntity = new HttpEntity<>(map, createBasicAuthHeaders(clientId, password));
         return new RestTemplate().exchange(url, HttpMethod.POST, httpEntity, AuthTokenResponse.class).getBody();
     }
 
-    private final MultiValueMap<String, String> createBasicAuthHeaders(final String clientId, final String password) {
+    private MultiValueMap<String, String> createBasicAuthHeaders(final String clientId, final String password) {
         final String auth = clientId + ":" + password;
         byte[] encodedAuth = Base64.getEncoder().encode(
-                auth.getBytes(Charset.forName("US-ASCII")) );
+                auth.getBytes(StandardCharsets.US_ASCII) );
         String authHeader = "Basic " + new String(encodedAuth);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
