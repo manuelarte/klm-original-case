@@ -11,11 +11,16 @@ import org.springframework.web.bind.annotation.*;
 @lombok.AllArgsConstructor
 public class AirportController {
 
+    public enum Sort {
+        asc, desc
+    }
+
     private final TravelService travelService;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public PageRequest getAirports(@RequestParam(value = "page", required = false, defaultValue = "0") final Integer page) {
-        return travelService.getAirports(page);
+    public PageRequest getAirports(@RequestParam(value = "page", required = false, defaultValue = "0") final Integer page,
+    @RequestParam(value = "sort", required = false, defaultValue = "desc") final Sort sort) {
+        return travelService.getAirports(page, sort);
     }
 
     @GetMapping(value = "/{code}", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -3,7 +3,6 @@ package com.afkl.cases.df.config;
 import com.afkl.cases.df.model.dtos.AuthTokenResponse;
 import com.afkl.cases.df.services.AuthService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;

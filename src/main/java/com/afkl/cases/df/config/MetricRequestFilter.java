@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.UUID;
 
 @lombok.AllArgsConstructor
 public class MetricRequestFilter implements Filter {

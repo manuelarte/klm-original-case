@@ -1,7 +1,7 @@
 package com.afkl.cases.df.services.impl;
 
 import com.afkl.cases.df.config.TravelServerProperties;
-import com.afkl.cases.df.config.UniqueIdThreadLocal;
+import com.afkl.cases.df.controllers.AirportController;
 import com.afkl.cases.df.exceptions.ServerException;
 import com.afkl.cases.df.exceptions.ValidationException;
 import com.afkl.cases.df.model.dtos.FareResponse;
@@ -16,7 +16,10 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URISyntaxException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @lombok.AllArgsConstructor
@@ -27,16 +30,29 @@ class TravelServiceImpl implements TravelService {
     private RestTemplate restTemplate;
 
     @Override
-    public PageRequest getAirports(final Integer page) {
+    public PageRequest getAirports(final Integer page, final AirportController.Sort sort) {
         try {
             // FIX ME. I can't make work the mock travel server with the params terms and page
             final URIBuilder uriBuilder = new URIBuilder(travelServerProperties.getAirports());
             Optional.ofNullable(page).ifPresent(it -> uriBuilder.setParameter("page", String.valueOf(it)));
 
-            return restTemplate.getForEntity(uriBuilder.build(), PageRequest.class).getBody();
+            final var body = restTemplate.getForEntity(uriBuilder.build(), PageRequest.class).getBody();
+            final var originalEmbedded = body.getEmbedded();
+            var comparator = comparator();
+            if (sort.equals(AirportController.Sort.asc)) {
+                comparator = Collections.reverseOrder(comparator());
+            }
+            final var sortedEmbedded = originalEmbedded.toBuilder().locations(
+                    originalEmbedded.getLocations().stream().sorted(comparator).collect(Collectors.toList())
+            ).build();
+            return body.toBuilder().embedded(sortedEmbedded).build();
         } catch (URISyntaxException e) {
             throw new ServerException("Can't form the airport url", e);
         }
+    }
+
+    private Comparator<Location> comparator() {
+        return Comparator.comparing(Location::getCode);
     }
 
     @Override

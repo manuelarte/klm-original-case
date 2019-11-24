@@ -29,8 +29,8 @@ public class FareController {
         final var namedThreadFactory = new ThreadFactoryBuilder().setNameFormat("async-task-%d").build();
         ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors(), namedThreadFactory);
 
-        final var originCf = CompletableFuture.supplyAsync(() -> travelService.getAirport(origin), executorService).thenAcceptAsync(it -> builder.origin(it));
-        final var destinationCf = CompletableFuture.supplyAsync(() -> travelService.getAirport(destination), executorService).thenAcceptAsync(it -> builder.destination(it));
+        final var originCf = CompletableFuture.supplyAsync(() -> travelService.getAirport(origin), executorService).thenAcceptAsync(builder::origin);
+        final var destinationCf = CompletableFuture.supplyAsync(() -> travelService.getAirport(destination), executorService).thenAcceptAsync(builder::destination);
         final var fareCf = CompletableFuture.supplyAsync(() -> travelService.getFare(origin, destination), executorService).thenAcceptAsync(it -> {
             builder.amount(it.getAmount());
             builder.currency(it.getCurrency());
